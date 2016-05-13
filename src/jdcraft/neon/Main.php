@@ -262,12 +262,12 @@ class Main extends PluginBase implements Listener {
 
             case "names":
 
-                $theme = $this->sessions[$sender->getName()]["params"];
+                $colstringarray = $this->sessions[$sender->getName()]["params"];
                 
-                $col1 = $this->signcols[strtoupper($this->neons[$theme][0])];
-                $col2 = $this->signcols[strtoupper($this->neons[$theme][1])];
-                $col3 = $this->signcols[strtoupper($this->neons[$theme][2])];
-                $col4 = $this->signcols[strtoupper($this->neons[$theme][3])];
+                $col1 = $this->signcols[strtoupper($colstringarray[0])];
+                $col2 = $this->signcols[strtoupper($colstringarray[1])];
+                $col3 = $this->signcols[strtoupper($colstringarray[2])];
+                $col4 = $this->signcols[strtoupper($colstringarray[3])];
 
                 break;
 
