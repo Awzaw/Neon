@@ -74,7 +74,7 @@ class Main extends PluginBase implements Listener {
             "RED" => TextFormat::RED,
             "LIGHT_PURPLE" => TextFormat::LIGHT_PURPLE,
             "YELLOW" => TextFormat::YELLOW,
-            "WHITE" => TextFormat::WHITE,
+            "WHITE" => TextFormat::WHITE
         ];
     }
 
@@ -272,10 +272,12 @@ class Main extends PluginBase implements Listener {
                 break;
 
             case "random":
-                $col1 = $this->signcols[mt_rand(0, count($this->signcols) - 1)];
-                $col2 = $this->signcols[mt_rand(0, count($this->signcols) - 1)];
-                $col3 = $this->signcols[mt_rand(0, count($this->signcols) - 1)];
-                $col4 = $this->signcols[mt_rand(0, count($this->signcols) - 1)];
+                $keys = array_keys($this->signcols);
+                $count = count($keys);
+                $col1 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
+                $col2 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
+                $col3 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
+                $col4 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
                 break;
 
 
