@@ -1,0 +1,14 @@
+name: Neon
+version: "0.0.1"
+author: jdcraft
+api:
+- 2.0.0
+main: jdcraft\neon\Main
+
+permissions:
+ neon:
+  description: all permissions for neon
+
+commands:
+ neon:
+  description: Neon Commands

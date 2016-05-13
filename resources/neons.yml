@@ -1,0 +1,31 @@
+## configure neons for parkour
+
+red:
+ - "RED"
+ - "RED"
+ - "RED"
+ - "RED"
+
+happy:
+ - "GREEN"
+ - "AQUA"
+ - "YELLOW"
+ - "GOLD"
+ 
+green:
+ - "GREEN"
+ - "GREEN"
+ - "GREEN"
+ - "GREEN"
+
+gold:
+ - "GOLD"
+ - "GOLD"
+ - "GOLD"
+ - "GOLD"
+
+aqua:
+ - "AQUA"
+ - "AQUA"
+ - "AQUA"
+ - "AQUA"
