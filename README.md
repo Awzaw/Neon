@@ -12,6 +12,8 @@ COMMANDS:
 
 /neon del test - delete the theme called test
 
+/neon rnd - start coloring with random colors
+
 /neon color1 color2 color3 color4 - start coloring with these colors
 
 /neon off - turn off Neon sign coloring
@@ -23,4 +25,5 @@ neon - players can use all neon commands
 
 
 Any problems, please let me know in the discussion thread, not the reviews.
+Current bugs include that a sign can only be colored once
 
