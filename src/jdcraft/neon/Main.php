@@ -291,12 +291,12 @@ class Main extends PluginBase implements Listener {
         $tile = $block->getLevel()->getTile($v);
 
         $signtext = array(
-            $col1 . $tile->getText()[0],
-            $col2 . $tile->getText()[1],
-            $col3 . $tile->getText()[2],
-            $col4 . $tile->getText()[3]
+            $col1 . preg_replace("/§./", "", $tile->getText()[0]),
+            $col2 . preg_replace("/§./", "", $tile->getText()[1]),
+            $col3 . preg_replace("/§./", "", $tile->getText()[2]),
+            $col4 . preg_replace("/§./", "", $tile->getText()[3])
         );
-
+        
 //      $task = new SignTask($this, $tile, $signtext);
 //      $this->getServer()->getScheduler()->scheduleDelayedTask($task, 10);
 
