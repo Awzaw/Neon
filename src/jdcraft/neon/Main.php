@@ -136,6 +136,8 @@ class Main extends PluginBase implements Listener {
                             }
                             
                             $this->neons[strtolower($param[1])] = array($color1, $color2, $color3, $color4);
+                            $this->saveNeons();
+                            
                             $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[1]));
                             $sender->sendMessage($this->getMessage("set-theme"));
                             
@@ -151,6 +153,7 @@ class Main extends PluginBase implements Listener {
 
                                 if (strtolower($param[1]) === strtolower($neon)){
                                 unset($this->neons[$neon]);
+                                $this->saveNeons();
                                 $sender->sendMessage($this->getMessage("theme-deleted")); 
                                 return;
                                 } 
