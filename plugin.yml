@@ -1,7 +1,8 @@
 name: Neon
-version: "1.0.1"
+version: "1.0.3"
 author: jdcraft
 api:
+- 1.14.0
 - 2.0.0
 main: jdcraft\neon\Main
 
