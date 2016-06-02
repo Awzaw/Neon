@@ -59,6 +59,7 @@ class Main extends PluginBase implements Listener {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
         $this->signcols = [
+            "RND" => "RND",
             "BLACK" => TextFormat::BLACK,
             "DARK_BLUE" => TextFormat::DARK_BLUE,
             "DARK_GREEN" => TextFormat::DARK_GREEN,
@@ -208,7 +209,7 @@ class Main extends PluginBase implements Listener {
                             
                             if (!$themeexists) {
                                 $sender->sendMessage($this->getMessage("theme-not-found"));
-                                return;
+                                return false;
                             }
                                 $sender->sendMessage($this->getMessage("theme-neon") . " " . $param[0]);
                                 $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[0]));
@@ -274,10 +275,10 @@ class Main extends PluginBase implements Listener {
             case "random":
                 $keys = array_keys($this->signcols);
                 $count = count($keys);
-                $col1 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
-                $col2 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
-                $col3 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
-                $col4 = $this->signcols[$keys[mt_rand(0, $count - 1)]];
+                $col1 = $this->signcols[$keys[mt_rand(1, $count - 1)]];
+                $col2 = $this->signcols[$keys[mt_rand(1, $count - 1)]];
+                $col3 = $this->signcols[$keys[mt_rand(1, $count - 1)]];
+                $col4 = $this->signcols[$keys[mt_rand(1, $count - 1)]];
                 break;
 
 
@@ -297,6 +298,22 @@ class Main extends PluginBase implements Listener {
             $col4 . preg_replace("/§./", "", $tile->getText()[3])
         );
         
+        for ($i = 0; $i < count($signtext); $i++) {
+            if (substr($signtext[$i], 0, 3) === "RND"){
+
+            $rawtext = str_split(substr($signtext[$i], 3));
+            $coloredtext = "";
+            $keys = array_keys($this->signcols);
+            $count = count($keys);
+            
+            foreach ($rawtext as $char){
+
+                $rndcol = $this->signcols[$keys[mt_rand(1, $count - 1)]];
+                $coloredtext = $coloredtext . $rndcol . $char;
+            }
+            $signtext[$i] = $coloredtext;
+            }
+        }        
 //      $task = new SignTask($this, $tile, $signtext);
 //      $this->getServer()->getScheduler()->scheduleDelayedTask($task, 10);
 
