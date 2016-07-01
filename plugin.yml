@@ -1,16 +1,12 @@
 name: Neon
 version: "1.0.4"
 author: jdcraft
-api:
-- 1.13.0
-- 1.14.0
-- 2.0.0
+api: [1.13.0, 1.14.0, 2.0.0]
+load: POSTWORLD
 main: jdcraft\neon\Main
-
 permissions:
  neon:
   description: all permissions for neon
-
 commands:
  neon:
   description: Neon Commands
