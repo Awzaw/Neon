@@ -45,9 +45,9 @@ class Main extends PluginBase implements Listener {
             mkdir($this->getDataFolder());
         }
 
-                $this->saveResource("neons.yml");
-                $this->saveResource("language.properties");
-                
+        $this->saveResource("neons.yml");
+        $this->saveResource("language.properties");
+
         $this->neons = array();
         $this->sessions = [];
 
@@ -111,55 +111,55 @@ class Main extends PluginBase implements Listener {
 
                         case "set":
 
-                            if (count($param) !== 6){
-                             $sender->sendMessage($this->getMessage("invalid-cols"));  
-                             return;
-                            }
-                            
-                            foreach ($this->neons as $neon => $neondata) {
-                                
-                                if (strtolower($param[1]) === strtolower($neon)){
-                                $sender->sendMessage($this->getMessage("theme-exists"));  
+                            if (count($param) !== 6) {
+                                $sender->sendMessage($this->getMessage("invalid-cols"));
                                 return;
-                                } 
                             }
-                            
+
+                            foreach ($this->neons as $neon => $neondata) {
+
+                                if (strtolower($param[1]) === strtolower($neon)) {
+                                    $sender->sendMessage($this->getMessage("theme-exists"));
+                                    return;
+                                }
+                            }
+
                             $color1 = strtoupper($param[2]);
                             $color2 = strtoupper($param[3]);
                             $color3 = strtoupper($param[4]);
                             $color4 = strtoupper($param[5]);
-                            
+
                             $colarray = array_keys($this->signcols);
-                            
-                            if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)){
-                            $sender->sendMessage($this->getMessage("invalid-cols")); 
-                            return;
+
+                            if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
+                                $sender->sendMessage($this->getMessage("invalid-cols"));
+                                return;
                             }
-                            
+
                             $this->neons[strtolower($param[1])] = array($color1, $color2, $color3, $color4);
                             $this->saveNeons();
-                            
+
                             $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[1]));
                             $sender->sendMessage($this->getMessage("set-theme"));
-                            
+
                             break;
 
                         case "del":
 
-                            if (count($param) !== 2){
-                             $sender->sendMessage($this->getMessage("invalid-command"));   
+                            if (count($param) !== 2) {
+                                $sender->sendMessage($this->getMessage("invalid-command"));
                             }
-                            
+
                             foreach ($this->neons as $neon => $neondata) {
 
-                                if (strtolower($param[1]) === strtolower($neon)){
-                                unset($this->neons[$neon]);
-                                $this->saveNeons();
-                                $sender->sendMessage($this->getMessage("theme-deleted")); 
-                                return;
-                                } 
+                                if (strtolower($param[1]) === strtolower($neon)) {
+                                    unset($this->neons[$neon]);
+                                    $this->saveNeons();
+                                    $sender->sendMessage($this->getMessage("theme-deleted"));
+                                    return;
+                                }
                             }
-                            
+
                             $sender->sendMessage($this->getMessage("theme-not-found"));
 
                             break;
@@ -170,7 +170,7 @@ class Main extends PluginBase implements Listener {
                             $sender->sendMessage($this->getMessage("random-theme"));
                             $this->sessions[$sender->getName()] = array("command" => "random");
                             break;
-                        
+
                         case "off":
 
                             $sender->sendMessage($this->getMessage("session-finished"));
@@ -180,37 +180,35 @@ class Main extends PluginBase implements Listener {
                         default:
 
                             if (count($param) == 4) {
-                                
-                            $color1 = strtoupper($param[0]);
-                            $color2 = strtoupper($param[1]);
-                            $color3 = strtoupper($param[2]);
-                            $color4 = strtoupper($param[3]);
-                            
-                            $colarray = array_keys($this->signcols);
-                            
-                            if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)){
-                            $sender->sendMessage($this->getMessage("invalid-cols")); 
-                            return;
-                            }
-                            
+
+                                $color1 = strtoupper($param[0]);
+                                $color2 = strtoupper($param[1]);
+                                $color3 = strtoupper($param[2]);
+                                $color4 = strtoupper($param[3]);
+
+                                $colarray = array_keys($this->signcols);
+
+                                if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
+                                    $sender->sendMessage($this->getMessage("invalid-cols"));
+                                    return;
+                                }
+
                                 $this->sessions[$sender->getName()] = array("command" => "names", "params" => $param);
                                 $sender->sendMessage($this->getMessage("names-neon"));
                                 break;
-                                
                             } else { // Load A Theme for this player
-                                
                                 $themeexists = false;
                                 foreach ($this->neons as $neon => $neondata) {
-                                if (strtolower($param[0]) === strtolower($neon)){
-                                $themeexists = true; 
-                                break;
-                                } 
-                            }
-                            
-                            if (!$themeexists) {
-                                $sender->sendMessage($this->getMessage("theme-not-found"));
-                                return false;
-                            }
+                                    if (strtolower($param[0]) === strtolower($neon)) {
+                                        $themeexists = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!$themeexists) {
+                                    $sender->sendMessage($this->getMessage("theme-not-found"));
+                                    return false;
+                                }
                                 $sender->sendMessage($this->getMessage("theme-neon") . " " . $param[0]);
                                 $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[0]));
                                 break;
@@ -248,7 +246,7 @@ class Main extends PluginBase implements Listener {
         //Player with perms has clicked a SIGN while in NEON mode...
 
         $command = $this->sessions[$sender->getName()]["command"];
-        
+
         switch ($command) {
             case "theme":
 
@@ -264,7 +262,7 @@ class Main extends PluginBase implements Listener {
             case "names":
 
                 $colstringarray = $this->sessions[$sender->getName()]["params"];
-                
+
                 $col1 = $this->signcols[strtoupper($colstringarray[0])];
                 $col2 = $this->signcols[strtoupper($colstringarray[1])];
                 $col3 = $this->signcols[strtoupper($colstringarray[2])];
@@ -297,25 +295,23 @@ class Main extends PluginBase implements Listener {
             $col3 . preg_replace("/§./", "", $tile->getText()[2]),
             $col4 . preg_replace("/§./", "", $tile->getText()[3])
         );
-        
+
         for ($i = 0; $i < count($signtext); $i++) {
-            if (substr($signtext[$i], 0, 3) === "RND"){
+            if (substr($signtext[$i], 0, 3) === "RND") {
 
-            $rawtext = str_split(substr($signtext[$i], 3));
-            $coloredtext = "";
-            $keys = array_keys($this->signcols);
-            $count = count($keys);
-            
-            foreach ($rawtext as $char){
+                $rawtext = str_split(substr($signtext[$i], 3));
+                $coloredtext = "";
+                $keys = array_keys($this->signcols);
+                $count = count($keys);
 
-                $rndcol = $this->signcols[$keys[mt_rand(1, $count - 1)]];
-                $coloredtext = $coloredtext . $rndcol . $char;
+                foreach ($rawtext as $char) {
+
+                    $rndcol = $this->signcols[$keys[mt_rand(1, $count - 1)]];
+                    $coloredtext = $coloredtext . $rndcol . $char;
+                }
+                $signtext[$i] = $coloredtext;
             }
-            $signtext[$i] = $coloredtext;
-            }
-        }        
-//      $task = new SignTask($this, $tile, $signtext);
-//      $this->getServer()->getScheduler()->scheduleDelayedTask($task, 10);
+        }
 
         $tile->setText($signtext[0], $signtext[1], $signtext[2], $signtext[3]);
     }
