@@ -1,3 +1,5 @@
+![Logo](https://forums.pocketmine.net/data/resource_icons/2/2022.jpg?1467099838)
+
 TO INSTALL: Place the .phar in your plugins folder... restart... make sure you have the correct permissions (see below) if you use a permissions manager, or change signs colors as OP.
 
 COMMANDS:
@@ -40,7 +42,4 @@ Available Colours:
 RND - use this to make every letter of the line a random colour.
 
 BLACK, DARK_BLUE, DARK_GREEN, DARK_AQUA, DARK_RED, DARK_PURPLE, GOLD, GRAY, DARK_GRAY, BLUE, GREEN, AQUA, RED, LIGHT_PURPLE, YELLOW, WHITE
-
-Any problems, please let me know in the discussion thread, not the reviews.
-Current bugs include that a sign can only be colored once
 
