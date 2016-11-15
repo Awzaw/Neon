@@ -41,12 +41,16 @@ class Main extends PluginBase implements Listener {
     private $lang;
 
     public function onEnable() {
+        if($this->getConfig()->get("enable") == false) {
+           $this->setEnabled(false);
+        }
         if (!file_exists($this->getDataFolder())) {
             mkdir($this->getDataFolder());
         }
 
         $this->saveResource("neons.yml");
         $this->saveResource("language.properties");
+        $this->saveResource("config.yml");
 
         $this->neons = array();
         $this->sessions = [];
