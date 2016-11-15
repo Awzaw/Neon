@@ -1,0 +1,7 @@
+---
+branches: master
+projects:
+  Neon:
+    path: ""
+    model: default
+...
