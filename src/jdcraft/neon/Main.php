@@ -30,6 +30,7 @@ use pocketmine\utils\Config;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\block\BlockIds;
 
 class Main extends PluginBase implements Listener {
 
