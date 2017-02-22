@@ -44,7 +44,7 @@ class Main extends PluginBase implements Listener {
 
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
-        if (!file_exists($this->getDataFolder())) {
+        if(!file_exists($this->getDataFolder())) {
             mkdir($this->getDataFolder());
         }
 
@@ -85,25 +85,25 @@ class Main extends PluginBase implements Listener {
     }
 
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $param) {
-        switch ($cmd->getName()) {
+        switch($cmd->getName()) {
             case "neon":
-                if (!$sender instanceof Player) {
+                if(!$sender instanceof Player) {
                     $sender->sendMessage(TextFormat::GREEN . $this->getMessage("run-in-game"));
                     break;
                 }
 
-                if (!$sender->hasPermission("neon")) {
+                if(!$sender->hasPermission("neon")) {
                     $sender->sendMessage($this->getMessage("no-permission"));
                     break;
                 }
 
-                if (isset($param[0]) && (strtolower($param[0]) !== "help")) {
+                if(isset($param[0]) && (strtolower($param[0]) !== "help")) {
 
-                    switch ($param[0]) {
+                    switch($param[0]) {
 
                         case "list":
 
-                            foreach ($this->neons as $neon => $neondata) {
+                            foreach($this->neons as $neon => $neondata) {
 
                                 $sender->sendMessage($neon . " - " . implode(" ", $neondata));
                             }
@@ -112,14 +112,14 @@ class Main extends PluginBase implements Listener {
 
                         case "set":
 
-                            if (count($param) !== 6) {
+                            if(count($param) !== 6) {
                                 $sender->sendMessage($this->getMessage("invalid-cols"));
                                 break;
                             }
 
-                            foreach ($this->neons as $neon => $neondata) {
+                            foreach($this->neons as $neon => $neondata) {
 
-                                if (strtolower($param[1]) === strtolower($neon)) {
+                                if(strtolower($param[1]) === strtolower($neon)) {
                                     $sender->sendMessage($this->getMessage("theme-exists"));
                                     break 2;
                                 }
@@ -132,27 +132,27 @@ class Main extends PluginBase implements Listener {
 
                             $colarray = array_keys($this->signcols);
 
-                            if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
+                            if(!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
                                 $sender->sendMessage($this->getMessage("invalid-cols"));
                                 break;
                             }
 
-                            $this->neons[strtolower($param[1])] = array($color1, $color2, $color3, $color4);
+                            $this->neons[strtolower($param[1])] = [$color1, $color2, $color3, $color4];
                             $this->saveNeons();
-                            $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[1]));
+                            $this->sessions[$sender->getName()] = ["command" => "theme", "params" => strtolower($param[1])];
                             $sender->sendMessage($this->getMessage("set-theme"));
                             return true;
 
                         case "del":
 
-                            if (count($param) !== 2) {
+                            if(count($param) !== 2) {
                                 $sender->sendMessage($this->getMessage("invalid-command"));
                                 break;
                             }
 
-                            foreach ($this->neons as $neon => $neondata) {
+                            foreach($this->neons as $neon => $neondata) {
 
-                                if (strtolower($param[1]) === strtolower($neon)) {
+                                if(strtolower($param[1]) === strtolower($neon)) {
                                     unset($this->neons[$neon]);
                                     $this->saveNeons();
                                     $sender->sendMessage($this->getMessage("theme-deleted"));
@@ -167,7 +167,7 @@ class Main extends PluginBase implements Listener {
                         case "rnd":
 
                             $sender->sendMessage($this->getMessage("random-theme"));
-                            $this->sessions[$sender->getName()] = array("command" => "random");
+                            $this->sessions[$sender->getName()] = ["command" => "random"];
                             return true;
 
                         case "off":
@@ -178,7 +178,7 @@ class Main extends PluginBase implements Listener {
 
                         default:
 
-                            if (count($param) == 4) {
+                            if(count($param) == 4) {
 
                                 $color1 = strtoupper($param[0]);
                                 $color2 = strtoupper($param[1]);
@@ -187,30 +187,30 @@ class Main extends PluginBase implements Listener {
 
                                 $colarray = array_keys($this->signcols);
 
-                                if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
+                                if(!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
                                     $sender->sendMessage($this->getMessage("invalid-cols"));
                                     break;
                                 }
 
-                                $this->sessions[$sender->getName()] = array("command" => "names", "params" => $param);
+                                $this->sessions[$sender->getName()] = ["command" => "names", "params" => $param];
                                 $sender->sendMessage($this->getMessage("names-neon"));
                                 return true;
 
                             } else { // Load A Theme for this player
                                 $themeexists = false;
-                                foreach ($this->neons as $neon => $neondata) {
-                                    if (strtolower($param[0]) === strtolower($neon)) {
+                                foreach($this->neons as $neon => $neondata) {
+                                    if(strtolower($param[0]) === strtolower($neon)) {
                                         $themeexists = true;
                                         break;
                                     }
                                 }
 
-                                if (!$themeexists) {
+                                if(!$themeexists) {
                                     $sender->sendMessage($this->getMessage("theme-not-found"));
                                     break;
                                 }
                                 $sender->sendMessage($this->getMessage("theme-neon") . " " . $param[0]);
-                                $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[0]));
+                                $this->sessions[$sender->getName()] = ["command" => "theme", "params" => strtolower($param[0])];
                                 return true;
                             }
                     }
@@ -232,17 +232,15 @@ class Main extends PluginBase implements Listener {
 
     public function onInteract(PlayerInteractEvent $event) {
 
-        if ($event->getAction() !== PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
+        if($event->getAction() !== PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
             return;
         }
 
         $block = $event->getBlock();
-        if (!($block->getID() == 63 or $block->getID() == 68 or $block->getID() == 323))
-            return;
+        if(!in_array($block->getID(), [BlockIds::SIGN_POST, BlockIds::WALL_SIGN])) return;
 
         $sender = $event->getPlayer();
-
-        if (!isset($this->sessions[$sender->getName()])) {
+        if(!isset($this->sessions[$sender->getName()])) {
             return;
         }
 
@@ -250,7 +248,7 @@ class Main extends PluginBase implements Listener {
 
         $command = $this->sessions[$sender->getName()]["command"];
 
-        switch ($command) {
+        switch($command) {
             case "theme":
 
                 $theme = $this->sessions[$sender->getName()]["params"];
@@ -287,27 +285,27 @@ class Main extends PluginBase implements Listener {
                 break;
         }
 
-        //$block->setText($signtext);          
+        //$block->setText($signtext);
 //
         $v = new Vector3($block->getX(), $block->getY(), $block->getZ());
         $tile = $block->getLevel()->getTile($v);
 
-        $signtext = array(
+        $signtext = [
             $col1 . preg_replace("/§./", "", $tile->getText()[0]),
             $col2 . preg_replace("/§./", "", $tile->getText()[1]),
             $col3 . preg_replace("/§./", "", $tile->getText()[2]),
             $col4 . preg_replace("/§./", "", $tile->getText()[3])
-        );
+        ];
 
-        for ($i = 0; $i < count($signtext); $i++) {
-            if (substr($signtext[$i], 0, 3) === "RND") {
+        for($i = 0; $i < count($signtext); $i++) {
+            if(substr($signtext[$i], 0, 3) === "RND") {
 
                 $rawtext = str_split(substr($signtext[$i], 3));
                 $coloredtext = "";
                 $keys = array_keys($this->signcols);
                 $count = count($keys);
 
-                foreach ($rawtext as $char) {
+                foreach($rawtext as $char) {
 
                     $rndcol = $this->signcols[$keys[mt_rand(1, $count - 1)]];
                     $coloredtext = $coloredtext . $rndcol . $char;
@@ -323,13 +321,13 @@ class Main extends PluginBase implements Listener {
 
 //Clean up
 
-        if (isset($this->sessions[$event->getPlayer()->getName()])) {
+        if(isset($this->sessions[$event->getPlayer()->getName()])) {
             unset($this->sessions[$event->getPlayer()->getName()]);
         }
     }
 
     public function getMessage($key, $value = ["%1", "%2"]) {
-        if ($this->lang->exists($key)) {
+        if($this->lang->exists($key)) {
             return str_replace(["%1", "%2"], [$value[0], $value[1]], $this->lang->get($key));
         } else {
             return "Language with key \"$key\" does not exist";
