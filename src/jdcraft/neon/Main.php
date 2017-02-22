@@ -42,6 +42,8 @@ class Main extends PluginBase implements Listener {
 
     public function onEnable() {
 
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+
         if (!file_exists($this->getDataFolder())) {
             mkdir($this->getDataFolder());
         }
@@ -49,15 +51,13 @@ class Main extends PluginBase implements Listener {
         $this->saveResource("neons.yml");
         $this->saveResource("language.properties");
 
-        $this->neons = array();
+        $this->neons = [];
         $this->sessions = [];
 
         $this->lang = new Config($this->getDataFolder() . "language.properties", Config::PROPERTIES);
 
         $neonYml = new Config($this->getDataFolder() . "neons.yml", Config::YAML);
         $this->neons = $neonYml->getAll();
-
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
         $this->signcols = [
             "RND" => "RND",
@@ -89,7 +89,7 @@ class Main extends PluginBase implements Listener {
             case "neon":
                 if (!$sender instanceof Player) {
                     $sender->sendMessage(TextFormat::GREEN . $this->getMessage("run-in-game"));
-                    return true;
+                    break;
                 }
 
                 if (!$sender->hasPermission("neon")) {
@@ -114,14 +114,14 @@ class Main extends PluginBase implements Listener {
 
                             if (count($param) !== 6) {
                                 $sender->sendMessage($this->getMessage("invalid-cols"));
-                                return;
+                                break;
                             }
 
                             foreach ($this->neons as $neon => $neondata) {
 
                                 if (strtolower($param[1]) === strtolower($neon)) {
                                     $sender->sendMessage($this->getMessage("theme-exists"));
-                                    return;
+                                    break 2;
                                 }
                             }
 
@@ -134,21 +134,20 @@ class Main extends PluginBase implements Listener {
 
                             if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
                                 $sender->sendMessage($this->getMessage("invalid-cols"));
-                                return;
+                                break;
                             }
 
                             $this->neons[strtolower($param[1])] = array($color1, $color2, $color3, $color4);
                             $this->saveNeons();
-
                             $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[1]));
                             $sender->sendMessage($this->getMessage("set-theme"));
-
-                            break;
+                            return true;
 
                         case "del":
 
                             if (count($param) !== 2) {
                                 $sender->sendMessage($this->getMessage("invalid-command"));
+                                break;
                             }
 
                             foreach ($this->neons as $neon => $neondata) {
@@ -157,12 +156,11 @@ class Main extends PluginBase implements Listener {
                                     unset($this->neons[$neon]);
                                     $this->saveNeons();
                                     $sender->sendMessage($this->getMessage("theme-deleted"));
-                                    return;
+                                    return true;
                                 }
                             }
 
                             $sender->sendMessage($this->getMessage("theme-not-found"));
-
                             break;
 
 
@@ -170,13 +168,13 @@ class Main extends PluginBase implements Listener {
 
                             $sender->sendMessage($this->getMessage("random-theme"));
                             $this->sessions[$sender->getName()] = array("command" => "random");
-                            break;
+                            return true;
 
                         case "off":
 
                             $sender->sendMessage($this->getMessage("session-finished"));
                             unset($this->sessions[$sender->getName()]);
-                            break;
+                            return true;
 
                         default:
 
@@ -191,12 +189,13 @@ class Main extends PluginBase implements Listener {
 
                                 if (!in_array($color1, $colarray) || !in_array($color2, $colarray) || !in_array($color3, $colarray) || !in_array($color4, $colarray)) {
                                     $sender->sendMessage($this->getMessage("invalid-cols"));
-                                    return;
+                                    break;
                                 }
 
                                 $this->sessions[$sender->getName()] = array("command" => "names", "params" => $param);
                                 $sender->sendMessage($this->getMessage("names-neon"));
-                                break;
+                                return true;
+
                             } else { // Load A Theme for this player
                                 $themeexists = false;
                                 foreach ($this->neons as $neon => $neondata) {
@@ -208,11 +207,11 @@ class Main extends PluginBase implements Listener {
 
                                 if (!$themeexists) {
                                     $sender->sendMessage($this->getMessage("theme-not-found"));
-                                    return false;
+                                    break;
                                 }
                                 $sender->sendMessage($this->getMessage("theme-neon") . " " . $param[0]);
                                 $this->sessions[$sender->getName()] = array("command" => "theme", "params" => strtolower($param[0]));
-                                break;
+                                return true;
                             }
                     }
                 } else {
@@ -223,9 +222,12 @@ class Main extends PluginBase implements Listener {
                     $sender->sendMessage(TextFormat::YELLOW . $this->getMessage("help3"));
                     $sender->sendMessage(TextFormat::YELLOW . $this->getMessage("help4"));
                     $sender->sendMessage(TextFormat::YELLOW . $this->getMessage("help5"));
-                    $sender->sendMessage(TextFormat::YELLOW . $this->getMessage("help5"));
+                    $sender->sendMessage(TextFormat::YELLOW . $this->getMessage("help6"));
+                    $sender->sendMessage(TextFormat::YELLOW . $this->getMessage("help7"));
+                    return true;
                 }
         }
+        return false;
     }
 
     public function onInteract(PlayerInteractEvent $event) {
