@@ -232,7 +232,7 @@ class Main extends PluginBase implements Listener {
     }
 
     public function onInteract(PlayerInteractEvent $event) {
-
+        if ($event->isCancelled()) return;
         if($event->getAction() !== PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
             return;
         }
@@ -286,8 +286,6 @@ class Main extends PluginBase implements Listener {
                 break;
         }
 
-        //$block->setText($signtext);
-//
         $v = new Vector3($block->getX(), $block->getY(), $block->getZ());
         $tile = $block->getLevel()->getTile($v);
 
@@ -319,7 +317,7 @@ class Main extends PluginBase implements Listener {
     }
 
     public function onPlayerQuit(PlayerQuitEvent $event) {
-
+        if ($event->isCancelled()) return;
 //Clean up
 
         if(isset($this->sessions[$event->getPlayer()->getName()])) {
