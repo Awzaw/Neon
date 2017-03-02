@@ -317,7 +317,6 @@ class Main extends PluginBase implements Listener {
     }
 
     public function onPlayerQuit(PlayerQuitEvent $event) {
-        if ($event->isCancelled()) return;
 //Clean up
 
         if(isset($this->sessions[$event->getPlayer()->getName()])) {
