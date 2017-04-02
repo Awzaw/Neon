@@ -40,6 +40,7 @@ class Main extends PluginBase implements Listener {
     private $neons;
     private $sessions;
     private $lang;
+    private $whitelisted;
 
     public function onEnable() {
 
@@ -50,16 +51,20 @@ class Main extends PluginBase implements Listener {
         }
 
         $this->saveResource("neons.yml");
+        $this->saveResource("config.yml");
         $this->saveResource("language.properties");
 
         $this->neons = [];
         $this->sessions = [];
+        $this->whitelisted = [];
 
         $this->lang = new Config($this->getDataFolder() . "language.properties", Config::PROPERTIES);
 
         $neonYml = new Config($this->getDataFolder() . "neons.yml", Config::YAML);
         $this->neons = $neonYml->getAll();
 
+        $configYml = new Config($this->getDataFolder() . "config.yml", Config::YAML);
+        $this->whitelisted = $configYml->get("whitelisted-worlds");
         $this->signcols = [
             "RND" => "RND",
             "BLACK" => TextFormat::BLACK,
@@ -93,7 +98,7 @@ class Main extends PluginBase implements Listener {
                     break;
                 }
 
-                if(!$sender->hasPermission("neon")) {
+                if(!$sender->hasPermission("neon") && !in_array($sender->getLevel()->getName(), $this->whitelisted)) {
                     $sender->sendMessage($this->getMessage("no-permission"));
                     break;
                 }
@@ -246,6 +251,12 @@ class Main extends PluginBase implements Listener {
         }
 
         //Player with perms has clicked a SIGN while in NEON mode...
+
+        if(!$sender->hasPermission("neon") && !in_array($sender->getLevel()->getName(), $this->whitelisted)) {
+            $sender->sendMessage($this->getMessage("no-permission"));
+            unset($this->sessions[$sender->getName()]);
+            return;
+        }
 
         $command = $this->sessions[$sender->getName()]["command"];
 

@@ -1,0 +1,7 @@
+# Main Config for Neon
+
+# Anyone can use Neon in whistlisted worlds, otherwise the 'neon' permission is required
+#for example
+#whitelisted-worlds: ["world","anotherworld","andanotherworld"]
+
+whitelisted-worlds: []
