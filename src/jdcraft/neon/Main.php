@@ -37,6 +37,7 @@ class Main extends PluginBase implements Listener {
     /**
      * @var Config
      */
+    const SIGNIDS = [BlockIds::SIGN_POST, BlockIds::WALL_SIGN];
     private $neons;
     private $sessions;
     private $lang;
@@ -243,7 +244,7 @@ class Main extends PluginBase implements Listener {
         }
 
         $block = $event->getBlock();
-        if(!in_array($block->getID(), [BlockIds::SIGN_POST, BlockIds::WALL_SIGN])) return;
+        if(!in_array($block->getID(), self::SIGNIDS)) return;
 
         $sender = $event->getPlayer();
         if(!isset($this->sessions[$sender->getName()])) {
