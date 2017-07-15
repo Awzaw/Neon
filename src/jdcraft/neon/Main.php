@@ -91,7 +91,7 @@ class Main extends PluginBase implements Listener {
         $this->saveNeons();
     }
 
-    public function onCommand(CommandSender $sender, Command $cmd, $label, array $param) {
+    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $param) : bool{
         switch($cmd->getName()) {
             case "neon":
                 if(!$sender instanceof Player) {
